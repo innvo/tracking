@@ -1,0 +1,28 @@
+{
+    "fluentMethods": true,
+    "relationships": [],
+    "fields": [
+        {
+            "fieldName": "user",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "route",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "restcall",
+            "fieldType": "String"
+        },
+        {
+            "fieldName": "timetamp",
+            "fieldType": "ZonedDateTime"
+        }
+    ],
+    "changelogDate": "20180213101519",
+    "dto": "no",
+    "service": "no",
+    "entityTableName": "usertracking",
+    "jpaMetamodelFiltering": false,
+    "pagination": "pagination"
+}

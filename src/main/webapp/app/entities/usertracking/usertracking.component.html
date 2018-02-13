@@ -1,0 +1,72 @@
+<div>
+    <h2>
+        <span>Usertrackings</span>
+        <button class="btn btn-primary float-right jh-create-entity create-usertracking" [routerLink]="['/', { outlets: { popup: ['usertracking-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span >
+            Create new Usertracking
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="usertrackings">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span>ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="user"><span>User</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="route"><span>Route</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="restcall"><span>Restcall</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="timetamp"><span>Timetamp</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let usertracking of usertrackings ;trackBy: trackId">
+                <td><a [routerLink]="['../usertracking', usertracking.id ]">{{usertracking.id}}</a></td>
+                <td>{{usertracking.user}}</td>
+                <td>{{usertracking.route}}</td>
+                <td>{{usertracking.restcall}}</td>
+                <td>{{usertracking.timetamp | date:'medium'}}</td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../usertracking', usertracking.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'usertracking/'+ usertracking.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'usertracking/'+ usertracking.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="usertrackings && usertrackings.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
