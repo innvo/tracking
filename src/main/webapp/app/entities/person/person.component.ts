@@ -3,7 +3,8 @@ import { HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
 import { JhiEventManager, JhiParseLinks, JhiAlertService } from 'ng-jhipster';
-
+import { Angulartics2 } from 'angulartics2';
+import { Angulartics2Piwik } from 'angulartics2/piwik';
 import { Person } from './person.model';
 import { PersonService } from './person.service';
 import { ITEMS_PER_PAGE, Principal } from '../../shared';
@@ -28,6 +29,7 @@ currentAccount: any;
     predicate: any;
     previousPage: any;
     reverse: any;
+    
 
     constructor(
         private personService: PersonService,
@@ -36,7 +38,9 @@ currentAccount: any;
         private principal: Principal,
         private activatedRoute: ActivatedRoute,
         private router: Router,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private angulartics2Piwik: Angulartics2Piwik,
+        private angulartics2: Angulartics2
     ) {
         this.itemsPerPage = ITEMS_PER_PAGE;
         this.routeData = this.activatedRoute.data.subscribe((data) => {
@@ -87,6 +91,7 @@ currentAccount: any;
             this.currentAccount = account;
         });
         this.registerChangeInPeople();
+  				
     }
 
     ngOnDestroy() {

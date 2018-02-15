@@ -8,6 +8,7 @@ import { TrackingUsertrackingModule } from './usertracking/usertracking.module';
     imports: [
         TrackingPersonModule,
         TrackingUsertrackingModule,
+
         /* jhipster-needle-add-entity-module - JHipster will add entity modules here */
     ],
     declarations: [],
