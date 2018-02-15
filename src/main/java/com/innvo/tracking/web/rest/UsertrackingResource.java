@@ -4,6 +4,7 @@ import com.codahale.metrics.annotation.Timed;
 import com.innvo.tracking.domain.Usertracking;
 
 import com.innvo.tracking.repository.UsertrackingRepository;
+import com.innvo.tracking.security.SecurityUtils;
 import com.innvo.tracking.web.rest.errors.BadRequestAlertException;
 import com.innvo.tracking.web.rest.util.HeaderUtil;
 import com.innvo.tracking.web.rest.util.PaginationUtil;
@@ -19,7 +20,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -54,6 +56,8 @@ public class UsertrackingResource {
         if (usertracking.getId() != null) {
             throw new BadRequestAlertException("A new usertracking cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        ZonedDateTime timetamp = ZonedDateTime.now(ZoneId.systemDefault());
+        usertracking.setTimetamp(timetamp);
         Usertracking result = usertrackingRepository.save(usertracking);
         return ResponseEntity.created(new URI("/api/usertrackings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -76,6 +80,10 @@ public class UsertrackingResource {
         if (usertracking.getId() == null) {
             return createUsertracking(usertracking);
         }
+        ZonedDateTime timetamp = ZonedDateTime.now(ZoneId.systemDefault());
+        usertracking.setTimetamp(timetamp);
+        System.out.println(SecurityUtils.getCurrentUserLogin().toString());
+        usertracking.setUser(SecurityUtils.getCurrentUserLogin().toString());
         Usertracking result = usertrackingRepository.save(usertracking);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, usertracking.getId().toString()))
