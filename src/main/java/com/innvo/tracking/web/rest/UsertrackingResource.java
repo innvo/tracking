@@ -58,6 +58,7 @@ public class UsertrackingResource {
         }
         ZonedDateTime timetamp = ZonedDateTime.now(ZoneId.systemDefault());
         usertracking.setTimetamp(timetamp);
+        usertracking.setUser(SecurityUtils.getCurrentUserLogin().get());
         Usertracking result = usertrackingRepository.save(usertracking);
         return ResponseEntity.created(new URI("/api/usertrackings/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
@@ -82,8 +83,7 @@ public class UsertrackingResource {
         }
         ZonedDateTime timetamp = ZonedDateTime.now(ZoneId.systemDefault());
         usertracking.setTimetamp(timetamp);
-        System.out.println(SecurityUtils.getCurrentUserLogin().toString());
-        usertracking.setUser(SecurityUtils.getCurrentUserLogin().toString());
+        usertracking.setUser(SecurityUtils.getCurrentUserLogin().get());
         Usertracking result = usertrackingRepository.save(usertracking);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(ENTITY_NAME, usertracking.getId().toString()))
